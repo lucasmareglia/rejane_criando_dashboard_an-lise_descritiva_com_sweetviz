@@ -35,6 +35,8 @@ while True:
                     if recognized in 'olá''oi''oie''olá rejane''oi rejane''oie rejane':
                         conv1 = ['olá, luucas ? no que posso ajudar ?','posso lhe ajudar? Luucas?','olá, Luucas ? o que vamos fazer agora ?', 'olá, o que iremos fazer hoje, Luucas']
                         fala_criatura(random.choice(conv1))
+               
+ # ANALISANDO BANCO DE DADOS >>>>>>>>>>>>>>>>>>>
                     elif recognized in 'analisar banco de dados''analise o banco de dados''analisar o banco de dados':
                         while True:
                             banco = True
@@ -54,8 +56,7 @@ while True:
                                     else:
                                         banco = False
                                         tab = True
-                                        while tab:
-           
+                                        while tab:          
                                             fala_criatura('qual tabela quer analisar?')
                                             audio1 = recog.listen(mic)
                                             try:
@@ -69,8 +70,7 @@ while True:
                                             else:
                                                 tab=False
                                                 resp=True
-                                                while resp:
-                                        
+                                                while resp:                                        
                                                     fala_criatura('deseja comparar categorias, Lucas?')
                                                     audio1 = recog.listen(mic)
                                                     try:
@@ -84,9 +84,6 @@ while True:
                                                         resp = False
                                                         col=True
                                                         while col:
-
-                                                            
-                                                
                                                             if resposta in 'sim''Sim''SIM':
                                                                 col=True
                                                                 while col:
@@ -104,7 +101,6 @@ while True:
                                                                         col=False
                                                                         pri = True
                                                                         while pri:
-
                                                                             fala_criatura('qual a primeira categoria a ser comparada?')
                                                                             audio1 = recog.listen(mic)
                                                                             try:
@@ -133,19 +129,15 @@ while True:
                                                                                         seg=False
                                                             else:
                                                                 break
-
-                                                                
                             if resposta in 'sim''Sim''SIM':
                                 conec= mysql.connector.connect(host='localhost',database=f'{banco_de_dados}',user='root',password='lucas123')
                                 if conec.is_connected():
                                     fala_criatura(f'analisando banco de dados {banco_de_dados_normal}')
                                     fala_criatura('isso pode demorar alguns segundos...')
                                     cursor=conec.cursor()
-                                    
                                     cursor.execute(f'select * from {tabela};')
                                     r= cursor.fetchall()
                                     r = pd.DataFrame(r)
-                                
                                 if banco_de_dados in 'world':
                                     r=r.rename(columns={2:'continente',3:'região',4:'area m²',6:'população',7:'expectativa de vida',8:'gnp'})
                                     del r[0],r[1],r[5],r[9],r[10],r[11],r[12],r[13],r[14]
@@ -155,8 +147,7 @@ while True:
                                     tam2=len(compare2)
                                     report_conp = sv.compare([compare1,label1], [compare2,label2])
                                     report_conp.show_html(layout='widescreen',scale=0.7)
-                                    break
-                                                                        
+                                    break                                                                 
                                 elif banco_de_dados in 'clientes':
                                     coluna=coluna.lower()
                                     r=r.rename(columns={0:'nome',1:'idade',2:'cpf'})
@@ -170,7 +161,6 @@ while True:
                                     report_conp.show_html(layout='widescreen',scale=0.7)
                                     fala_criatura(f'temos um total de {tam1} registros relacionados a categoria {label1}, e temos um total de {tam2} registros relacionados a categoria {label2}')
                                     break
-                            
                             else:
                                 conec= mysql.connector.connect(host='localhost',database=f'{banco_de_dados}',user='root',password='lucas123')
                                 if conec.is_connected():
@@ -202,7 +192,6 @@ while True:
                                     fala_criatura(f'sua análise da tabela {tabela_normal} está pronta, Lucas')
                                     fala_criatura(f'na tabela {banco_de_dados_normal} temos um total de {tam} registros que foram analisados')
                                     break
-
                 except UnknownValueError:
                     fala_criatura('')
         else:
